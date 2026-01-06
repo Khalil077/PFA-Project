@@ -4,12 +4,12 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity('ProductPictures')
-export class ProductPictureEntity extends TimeStamp{
+export class ProductPictureEntity extends TimeStamp {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  filename: string;
+  url: string;
   @ManyToOne(() => ProductEntity, (Product) => Product.id)
   product: ProductEntity;
 }
