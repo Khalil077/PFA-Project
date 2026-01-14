@@ -5,6 +5,10 @@ import {
   Max,
   Min,
   MinLength,
-} from 'class-validator';
+} from "class-validator";
 
-export class CreateProductPictureDto {}
+export class CreateProductPictureDto {
+  @IsString()
+  @IsNotEmpty()
+  url: string;
+}

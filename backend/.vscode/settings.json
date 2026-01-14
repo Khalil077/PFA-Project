@@ -1,4 +1,15 @@
 {
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.hover.enabled": "on",
+  "editor.codeLens": true,
+
+  "typescript.validate.enable": true,
+
+  "editor.suggestOnTriggerCharacters": false,
+
+  "editor.quickSuggestions": {
+    "other": false,
+    "comments": false,
+    "strings": false
+  },
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

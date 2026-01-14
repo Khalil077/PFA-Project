@@ -1,9 +1,14 @@
 import { TimeStamp } from "src/generics/timestamp";
 import { ProductEntity } from "src/products/entities/product.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
-
-@Entity('ProductPictures')
+@Entity("ProductPictures")
 export class ProductPictureEntity extends TimeStamp {
   @PrimaryGeneratedColumn()
   id: number;
@@ -11,5 +16,6 @@ export class ProductPictureEntity extends TimeStamp {
   @Column()
   url: string;
   @ManyToOne(() => ProductEntity, (Product) => Product.id)
+  @JoinColumn({ name: "product_id" })
   product: ProductEntity;
 }

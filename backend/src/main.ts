@@ -1,17 +1,17 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { NestFactory } from "@nestjs/core";
+import { AppModule } from "./app.module";
+import { ValidationPipe } from "@nestjs/common";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   await app.listen(3000);
-    app.useGlobalPipes(
+  app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
       whitelist: true,
       forbidNonWhitelisted: true,
     }),
-  );//mnghir hedhy el body mch bch yekho  tinstance mn addtasktdo  
+  ); //mnghir hedhy el body mch bch yekho  tinstance mn addtasktdo
   //whitelist attribut li aandi yetkeblo-------------------------
   //forbidnonwhitelisted ay attribut zeyed yekebloush
 }
