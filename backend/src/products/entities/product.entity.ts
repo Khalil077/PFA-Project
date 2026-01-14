@@ -1,4 +1,5 @@
 import { TimeStamp } from "src/generics/timestamp";
+import { ProductCategoryEntity } from "src/product-categories/entities/product-category.entity";
 import { ProductPictureEntity } from "src/product-pictures/entities/product-picture.entity";
 import { UserEntity } from "src/users/entities/user.entity";
 import {
@@ -38,6 +39,11 @@ export class ProductEntity extends TimeStamp {
 
   @OneToMany(() => ProductPictureEntity, (picture) => picture.product, {
     cascade: true,
+    eager: true,
   })
   pictures: ProductPictureEntity[];
+
+  @ManyToOne(() => ProductCategoryEntity, { eager: true })
+  @JoinColumn({ name: "category_id" }) // this will store category ID
+  category: ProductCategoryEntity;
 }

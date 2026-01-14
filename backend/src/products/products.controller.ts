@@ -48,12 +48,12 @@ export class ProductsController {
     return this.productsService.findAll();
   }
   @UseGuards(AuthGuard("jwt"))
-  @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.productsService.findOne(+id);
+  @Get("findone/:id")
+  findOne(@Param("id", ParseIntPipe) id) {
+    return this.productsService.findOne(id);
   }
-  
-   @UsePipes(
+
+  @UsePipes(
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
@@ -61,14 +61,17 @@ export class ProductsController {
     }),
   )
   @UseGuards(AuthGuard("jwt"), AdminGuard)
-  @Patch("updateproduct/:id")
-  update(@Param("id",ParseIntPipe) id, @Body() updateProductDto:UpdateProductDto) {
+  @Patch("update/:id")
+  update(
+    @Param("id", ParseIntPipe) id,
+    @Body() updateProductDto: UpdateProductDto,
+  ) {
     return this.productsService.update(id, updateProductDto);
   }
 
   @UseGuards(AuthGuard("jwt"), AdminGuard)
-  @Delete("deleteproduct/:id")
-  remove(@Param("id",ParseIntPipe) id) {
+  @Delete("delete/:id")
+  remove(@Param("id", ParseIntPipe) id) {
     return this.productsService.softremove(id);
   }
 }

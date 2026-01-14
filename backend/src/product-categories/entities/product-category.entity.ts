@@ -1,13 +1,16 @@
+import { TimeStamp } from "src/generics/timestamp";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("product_categories")
-export class ProductCategory {
+export class ProductCategoryEntity extends TimeStamp {
   @PrimaryGeneratedColumn()
   id;
 
-  @Column()
+  @Column({
+    unique: true,
+  })
   product_category_name: string;
 
-  @Column()
+  @Column({ nullable: true })
   product_category_photo: string;
 }

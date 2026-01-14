@@ -9,11 +9,15 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { ProductEntity } from "./entities/product.entity";
 import { Repository } from "typeorm";
 import cloudinary from "cloudinary.config";
+import { ProductCategoryEntity } from "src/product-categories/entities/product-category.entity";
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(ProductEntity)
     private productRepo: Repository<ProductEntity>,
+
+    @InjectRepository(ProductCategoryEntity)
+    private productCategoryRep: Repository<ProductCategoryEntity>,
   ) {}
   create(dto: CreateProductDto) {
     const product = this.productRepo.create(dto);
@@ -47,6 +51,11 @@ export class ProductsService {
     return this.productRepo.softRemove(product);
   }
   async createWithImages(dto, files: Express.Multer.File[]) {
+    const category = await this.productCategoryRep.findOne({
+      where: { id: dto.category_id },
+    });
+    if (!category) throw new BadRequestException("Category does not exist");
+
     console.log("Uploaded files:", files);
 
     const pictures: { url: string }[] = [];
@@ -72,9 +81,9 @@ export class ProductsService {
 
       pictures.push({ url: uploaded.secure_url });
     }
-
     const product = this.productRepo.create({
       ...dto,
+      category,
       pictures,
     });
 

@@ -23,7 +23,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post("register")
-   @UsePipes(
+  @UsePipes(
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
@@ -40,25 +40,27 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard("jwt"), AdminGuard)
-  @Get(":id")
-  findOne(@Param("id",ParseIntPipe) id) {
+  @Get("find/:id")
+  findOne(@Param("id", ParseIntPipe) id) {
     return this.usersService.findOne(id);
   }
 
   @UseGuards(AuthGuard("jwt"))
-
-  @Patch("edituser")
-   @UsePipes(
+  @Patch("update")
+  @UsePipes(
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
       transform: true,
-    }),)
-  async update(@Req() req, @Body() body :UpdateUserDto ) { 
+    }),
+  )
+  async update(@Req() req, @Body() body: UpdateUserDto) {
     return await this.usersService.update(req.userId, body);
-  } 
-  @Delete(":id")
-  remove(@Param("id",ParseIntPipe) id) {
+  }
+
+  @UseGuards(AuthGuard("jwt"), AdminGuard)
+  @Delete("remove/:id")
+  remove(@Param("id", ParseIntPipe) id) {
     return this.usersService.remove(id);
   }
   @Post("login")
