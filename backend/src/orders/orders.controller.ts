@@ -6,23 +6,28 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
+  UseGuards,
 } from "@nestjs/common";
 import { OrdersService } from "./orders.service";
 import { CreateOrderDto } from "./dto/create-order.dto";
 import { UpdateOrderDto } from "./dto/update-order.dto";
+import { AuthGuard } from "@nestjs/passport";
 
 @Controller("orders")
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
-
-  @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.CreateOrder(createOrderDto);
+  @UseGuards(AuthGuard("jwt"))
+  @Post("add")
+  async create(@Body() dto, @Req() req: Request) {
+    const userId = req["userId"];
+    return await this.ordersService.CreateOrder(dto, userId);
   }
-
-  @Get()
-  findAll() {
-    return this.ordersService.findAll();
+  @UseGuards(AuthGuard("jwt"))
+  @Get("findall")
+  findAll(@Req() req: Request) {
+    const userId = req["userId"];
+    return this.ordersService.findAll(userId);
   }
 
   @Get(":id")

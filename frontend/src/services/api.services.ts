@@ -44,6 +44,9 @@ export class ApiService {
   getallproducts(): Observable<any> {
     return this.http.get(this.apiUrl + 'products/getproducts');
   }
+  getproductbyid(id: number): Observable<any> {
+    return this.http.get(this.apiUrl + `products/findone/${id}`);
+  }
   getlallcategories(): Observable<any> {
     return this.http.get(this.apiUrl + 'product-categories/getall');
   }

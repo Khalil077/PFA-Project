@@ -1,9 +1,9 @@
 <!-- Product Item Component with Static Data -->
 <div class="product-item">
   <!-- Product Image with Badges -->
-  <div class="product-image-container position-relative">
+  <div class="product-image-container">
     <!-- Main Image -->
-    <img [src]="productImage" [alt]="productName" class="product-image" (click)="viewDetails()" />
+    <img [src]="imageUrl()" [alt]="productName" class="product-image" />
 
     <!-- Stock Badge -->
     <div class="product-badge stock-badge" [ngClass]="inStock ? 'in-stock' : 'out-of-stock'">
@@ -20,7 +20,7 @@
       <button class="btn-action" title="Add to Wishlist" (click)="addToWishlist()">
         <i class="bi bi-heart"></i>
       </button>
-      <button class="btn-action" title="Add to Compare" (click)="addToCompare()">
+      <button class="btn-action" title="Add to Compare" (click)="nextImage()">
         <i class="bi bi-arrow-left-right"></i>
       </button>
     </div>
@@ -30,25 +30,23 @@
   <div class="product-info">
     <!-- Product Name -->
     <h3 class="product-name" (click)="viewDetails()">
-      {{ productName }}
+      {{ product()?.product_name }}
     </h3>
 
     <!-- Product Description -->
     <p class="product-description">
-      {{ productDescription }}
+      {{ product()?.product_description }}
     </p>
 
     <!-- Product Price -->
     <div class="product-price">
-      <span class="current-price">{{ productPrice }} DT</span>
+      <span class="current-price">{{ product()?.prix }} DT</span>
     </div>
 
     <!-- Stock Indicator -->
     <div class="stock-info">
       <div class="stock-indicator" [ngClass]="getStockClass()"></div>
-      <span class="stock-text">
-        {{ stockText }}
-      </span>
+      <span class="stock-text"> {{ product()?.stock }} items left </span>
     </div>
 
     <!-- Add to Cart Button -->
@@ -61,11 +59,11 @@
     <div class="product-meta">
       <span class="meta-item">
         <i class="bi bi-tag"></i>
-        {{ productCategory }}
+        {{ product()?.category?.product_category_name }}
       </span>
       <span class="meta-item">
         <i class="bi bi-star-fill"></i>
-        {{ productRating }}
+        48
       </span>
     </div>
   </div>

@@ -9,6 +9,13 @@ import { ProductCategoriesModule } from "./product-categories/product-categories
 import { OrdersModule } from "./orders/orders.module";
 import * as dotenv from "dotenv";
 import cloudinary from "cloudinary.config";
+import { OrdModule } from "./ord/ord.module";
+import { ProductEntity } from "./products/entities/product.entity";
+import { OrderEntity } from "./orders/entities/order.entity";
+import { UserEntity } from "./users/entities/user.entity";
+import { ProductPictureEntity } from "./product-pictures/entities/product-picture.entity";
+import { ProductCategoryEntity } from "./product-categories/entities/product-category.entity";
+import { join } from "path";
 
 dotenv.config();
 cloudinary.config({
@@ -33,6 +40,7 @@ cloudinary.config({
     ProductPicturesModule,
     ProductCategoriesModule,
     OrdersModule,
+    OrdModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -38,6 +38,8 @@ export class App {
         console.log('User is logged in');
         this.loadUser();
       } else {
+        localStorage.removeItem('user');
+
         console.log('User is NOT logged in');
       }
     }

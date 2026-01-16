@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, computed, EventEmitter, inject, Input, Output, signal } from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ApiService, Product } from '../services/api.services';
 
 @Component({
   selector: 'app-product-item',
@@ -9,6 +10,27 @@ import { RouterModule } from '@angular/router';
   styleUrl: './product-item.css',
 })
 export class ProductItem {
+  private apiService = inject(ApiService);
+  isLoading = signal<boolean>(true);
+  error = signal<string | null>(null);
+  private route = inject(ActivatedRoute);
+  product = signal<Product | null>(null);
+  ngOnInit(): void {
+    const productId = this.route.snapshot.paramMap.get('id');
+    if (productId) {
+      this.apiService.getproductbyid(Number(productId)).subscribe({
+        next: (product) => {
+          this.product.set(product);
+          this.isLoading.set(false);
+          console.log('Loaded product:', product);
+        },
+        error: (err) => {
+          this.error.set('Failed to load product');
+          this.isLoading.set(false);
+        },
+      });
+    }
+  }
   productName = 'iPhone 15 Pro';
   productDescription =
     'Latest Apple smartphone with A17 Pro chip, titanium design, and advanced camera system';
@@ -74,5 +96,21 @@ export class ProductItem {
     console.log('Add to Compare clicked');
     alert(`${this.productName} added to compare!`);
     // In real app: this.compareService.add(product);
+  }
+  imageIndex = signal(0); // 🔥 current image index
+
+  imageUrl = computed(() => {
+    const pictures = this.product()?.pictures;
+    if (!pictures || pictures.length === 0) {
+      return 'assets/images/placeholder.jpg';
+    }
+    return pictures[this.imageIndex()]?.url;
+  });
+
+  nextImage() {
+    const pictures = this.product()?.pictures;
+    if (!pictures || pictures.length === 0) return;
+
+    this.imageIndex.update((i) => (i + 1 >= pictures.length ? 0 : i + 1));
   }
 }
