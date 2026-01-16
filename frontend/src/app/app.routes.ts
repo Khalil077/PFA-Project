@@ -4,6 +4,7 @@ import { Login } from '../login/login';
 import { Register } from '../register/register';
 import { ProductList } from '../product-list/product-list';
 import { ProductItem } from '../product-item/product-item';
+import { Orderslist } from '../orderslist/orderslist';
 
 export const routes: Routes = [
   {
@@ -25,4 +26,5 @@ export const routes: Routes = [
   },
   { path: 'product-list', component: ProductList },
   { path: 'product-item/:id', component: ProductItem },
+  { path: 'orderlist', component: Orderslist },
 ];

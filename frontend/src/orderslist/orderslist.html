@@ -1,0 +1,80 @@
+<!-- Order List Component -->
+<div class="order-list-container">
+  <div class="header-section">
+    <h2 class="page-title"><i class="bi bi-bag-check me-2"></i>My Orders</h2>
+
+    <div class="controls-section">
+      <div class="search-box">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search orders..."
+          [value]="searchQuery()"
+          (input)="onSearchInput($event)"
+        />
+        <i class="bi bi-search search-icon"></i>
+      </div>
+
+      <div class="filter-dropdown">
+        <select
+          class="form-select"
+          [value]="statusFilter()"
+          (change)="onStatusFilterChange($event)"
+        >
+          <option value="all">All Status</option>
+          <option value="pending">Pending</option>
+          <option value="processing">Processing</option>
+          <option value="shipped">Shipped</option>
+          <option value="delivered">Delivered</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Orders Table -->
+  <div class="orders-table-section">
+    @if (filteredOrders().length === 0) {
+    <div class="empty-state">
+      <i class="bi bi-inbox empty-icon"></i>
+      <h4>No Orders Found</h4>
+      <p>Try adjusting your search or filter criteria</p>
+    </div>
+    } @else {
+    <div class="table-responsive">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th (click)="sortOrders('date')" class="sortable">
+              Date <i class="bi bi-arrow-down-up"></i>
+            </th>
+            <th>Nom Du Produit</th>
+            <th (click)="sortOrders('status')" class="sortable">
+              Status <i class="bi bi-arrow-down-up"></i>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (order of filteredOrders(); track order.id) {
+          <tr class="order-row">
+            <td class="order-id">
+              <strong>#{{ order.id }}</strong>
+            </td>
+            <td class="order-date">order.createdAt</td>
+            <td class="order-product">
+              {{ order.product?.product_name }}
+            </td>
+            <td class="order-status">
+              <span class="status-badge" [class]="'status-' + order.status">
+                {{ getStatusText(order.status) }}
+              </span>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    }
+  </div>
+</div>
