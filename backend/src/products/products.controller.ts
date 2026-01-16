@@ -42,7 +42,6 @@ export class ProductsController {
     return this.productsService.createWithImages(body, files);
   }
 
-  @UseGuards(AuthGuard("jwt"))
   @Get("getproducts")
   findAll() {
     return this.productsService.findAll();

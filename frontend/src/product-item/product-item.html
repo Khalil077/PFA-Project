@@ -1,0 +1,72 @@
+<!-- Product Item Component with Static Data -->
+<div class="product-item">
+  <!-- Product Image with Badges -->
+  <div class="product-image-container position-relative">
+    <!-- Main Image -->
+    <img [src]="productImage" [alt]="productName" class="product-image" (click)="viewDetails()" />
+
+    <!-- Stock Badge -->
+    <div class="product-badge stock-badge" [ngClass]="inStock ? 'in-stock' : 'out-of-stock'">
+      <span class="badge-text">
+        {{ inStock ? 'In Stock' : 'Out of Stock' }}
+      </span>
+    </div>
+
+    <!-- Quick Actions Overlay -->
+    <div class="quick-actions-overlay">
+      <button class="btn-action" title="Quick View" (click)="quickView()">
+        <i class="bi bi-eye"></i>
+      </button>
+      <button class="btn-action" title="Add to Wishlist" (click)="addToWishlist()">
+        <i class="bi bi-heart"></i>
+      </button>
+      <button class="btn-action" title="Add to Compare" (click)="addToCompare()">
+        <i class="bi bi-arrow-left-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Product Info -->
+  <div class="product-info">
+    <!-- Product Name -->
+    <h3 class="product-name" (click)="viewDetails()">
+      {{ productName }}
+    </h3>
+
+    <!-- Product Description -->
+    <p class="product-description">
+      {{ productDescription }}
+    </p>
+
+    <!-- Product Price -->
+    <div class="product-price">
+      <span class="current-price">{{ productPrice }} DT</span>
+    </div>
+
+    <!-- Stock Indicator -->
+    <div class="stock-info">
+      <div class="stock-indicator" [ngClass]="getStockClass()"></div>
+      <span class="stock-text">
+        {{ stockText }}
+      </span>
+    </div>
+
+    <!-- Add to Cart Button -->
+    <button class="btn-add-to-cart" [disabled]="!inStock" (click)="addToCart()">
+      <i class="bi" [ngClass]="inStock ? 'bi-cart-plus' : 'bi-cart-x'"></i>
+      <span>{{ buttonText }}</span>
+    </button>
+
+    <!-- Product Meta -->
+    <div class="product-meta">
+      <span class="meta-item">
+        <i class="bi bi-tag"></i>
+        {{ productCategory }}
+      </span>
+      <span class="meta-item">
+        <i class="bi bi-star-fill"></i>
+        {{ productRating }}
+      </span>
+    </div>
+  </div>
+</div>

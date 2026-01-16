@@ -33,13 +33,19 @@ export class UsersController {
   create(@Body() user: CreateUserDto) {
     return this.usersService.register(user);
   }
+  @UseGuards(AuthGuard("jwt"))
+  @Get("me")
+  getMe(@Req() req) {
+    // req.user comes from JwtStrategy validate()
+    return req.user; // { userId, userRole }
+  }
 
   @Get("findall")
   findAll() {
     return this.usersService.findAll();
   }
 
-  @UseGuards(AuthGuard("jwt"), AdminGuard)
+  @UseGuards(AuthGuard("jwt"))
   @Get("find/:id")
   findOne(@Param("id", ParseIntPipe) id) {
     return this.usersService.findOne(id);
